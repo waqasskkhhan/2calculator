@@ -2,82 +2,104 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Advanced Price Calculator</title>
+<title>Smart Price Calculator</title>
 
 <style>
 
+*{
+box-sizing:border-box;
+font-family: 'Segoe UI', sans-serif;
+}
+
 body{
-font-family: Arial;
-background: linear-gradient(135deg,#141e30,#243b55);
+margin:0;
 height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-margin:0;
+background: linear-gradient(135deg,#667eea,#764ba2);
 }
 
+/* Card */
 .container{
-background:white;
-padding:30px;
-border-radius:15px;
 width:360px;
-box-shadow:0 15px 30px rgba(0,0,0,0.4);
+padding:25px;
+border-radius:20px;
+background: rgba(255,255,255,0.15);
+backdrop-filter: blur(12px);
+box-shadow:0 8px 30px rgba(0,0,0,0.3);
+color:white;
 text-align:center;
 }
 
+/* Title */
 h2{
 margin-bottom:20px;
 }
 
+/* Input */
 input{
-width:90%;
-padding:12px;
+width:100%;
+padding:14px;
 font-size:18px;
-border-radius:8px;
-border:1px solid #ccc;
+border-radius:12px;
+border:none;
+outline:none;
 margin-bottom:20px;
 }
 
+/* Buttons Grid */
 .buttons{
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(3,1fr);
 gap:10px;
 margin-bottom:20px;
 }
 
+/* Buttons */
 button{
 padding:12px;
-font-size:16px;
 border:none;
-border-radius:8px;
+border-radius:12px;
+font-size:16px;
 cursor:pointer;
-background:#243b55;
+background: rgba(255,255,255,0.2);
 color:white;
 transition:0.3s;
 }
 
+/* Hover + Active */
 button:hover{
-background:#141e30;
+background:white;
+color:#333;
 transform:scale(1.05);
 }
 
-.result{
-background:#f4f6ff;
-padding:15px;
-border-radius:10px;
-text-align:left;
-line-height:1.7;
-margin-top:10px;
+button.active{
+background:#00ffcc;
+color:#000;
+font-weight:bold;
 }
 
+/* Result Box */
+.result{
+background: rgba(255,255,255,0.2);
+padding:15px;
+border-radius:12px;
+text-align:left;
+font-size:15px;
+line-height:1.7;
+}
+
+/* Footer */
 .footer{
 margin-top:20px;
-font-size:14px;
+font-size:13px;
 }
 
 .footer a{
+color:#00ffcc;
 text-decoration:none;
-color:#243b55;
 font-weight:bold;
 }
 
@@ -92,21 +114,21 @@ text-decoration:underline;
 
 <div class="container">
 
-<h2>Price Calculator</h2>
+<h2>Smart Calculator</h2>
 
 <input type="number" id="price" placeholder="Enter Price">
 
 <div class="buttons">
 
-<button onclick="calculate(1)">1%</button>
-<button onclick="calculate(2)">2%</button>
-<button onclick="calculate(3)">3%</button>
-<button onclick="calculate(5)">5%</button>
-<button onclick="calculate(10)">10%</button>
+<button onclick="calculate(this,1)">1%</button>
+<button onclick="calculate(this,2)">2%</button>
+<button onclick="calculate(this,3)">3%</button>
+<button onclick="calculate(this,5)">5%</button>
+<button onclick="calculate(this,10)">10%</button>
 
 </div>
 
-<div class="result" id="result"></div>
+<div class="result" id="result">Enter price and select percentage</div>
 
 <div class="footer">
 Created by 
@@ -117,25 +139,31 @@ Created by
 
 <script>
 
-function calculate(percent){
+function calculate(btn, percent){
 
 let price = parseFloat(document.getElementById("price").value);
 
 if(!price){
-document.getElementById("result").innerHTML="Please enter a price first.";
+document.getElementById("result").innerHTML="⚠️ Please enter price first";
 return;
 }
 
+/* Active Button Highlight */
+document.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+btn.classList.add("active");
+
+/* Calculation */
 let percentAmount = (price * percent) / 100;
 let total = price + percentAmount;
 
+/* Output */
 document.getElementById("result").innerHTML = `
-<b>Original Price:</b> ${price}<br>
-<b>Selected Percentage:</b> ${percent}%<br>
-<b>Percentage Amount:</b> ${percentAmount.toFixed(2)}<br>
-<b>Formula:</b> (${price} ? ${percent}) ? 100 = ${percentAmount.toFixed(2)}<br>
+<b>💰 Original Price:</b> ${price}<br>
+<b>📊 Percentage:</b> ${percent}%<br>
+<b>➕ Added Amount:</b> ${percentAmount.toFixed(2)}<br>
+<b>🧮 Formula:</b> (${price} × ${percent}) ÷ 100<br>
 <hr>
-<b>Total Price:</b> ${price} + ${percentAmount.toFixed(2)} = <b>${total.toFixed(2)}</b>
+<b>✅ Final Price:</b> ${total.toFixed(2)}
 `;
 
 }
