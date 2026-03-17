@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Percentage Price Calculator</title>
+
+<style>
+
+body{
+font-family: Arial;
+background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:0;
+}
+
+.container{
+background:white;
+padding:30px;
+border-radius:15px;
+width:350px;
+box-shadow:0 15px 30px rgba(0,0,0,0.4);
+text-align:center;
+}
+
+h2{
+margin-bottom:20px;
+}
+
+input{
+width:90%;
+padding:12px;
+font-size:18px;
+border-radius:8px;
+border:1px solid #ccc;
+margin-bottom:20px;
+}
+
+.buttons{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-bottom:20px;
+}
+
+button{
+padding:12px;
+font-size:16px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+background:#2c5364;
+color:white;
+}
+
+button:hover{
+background:#1b3a4b;
+}
+
+.result{
+background:#f4f6ff;
+padding:15px;
+border-radius:10px;
+text-align:left;
+line-height:1.7;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Price Percentage Calculator</h2>
+
+<input type="number" id="price" placeholder="Enter Price">
+
+<div class="buttons">
+
+<button onclick="calculate(1)">1%</button>
+<button onclick="calculate(2)">2%</button>
+<button onclick="calculate(5)">5%</button>
+<button onclick="calculate(10)">10%</button>
+
+</div>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+function calculate(percent){
+
+let price = parseFloat(document.getElementById("price").value);
+
+if(!price){
+document.getElementById("result").innerHTML="Please enter a price first.";
+return;
+}
+
+let percentAmount = (price * percent) / 100;
+let total = price + percentAmount;
+
+document.getElementById("result").innerHTML = `
+<b>Original Price:</b> ${price}<br>
+<b>Selected Percentage:</b> ${percent}%<br>
+<b>Percentage Amount:</b> ${percentAmount.toFixed(2)}<br>
+<b>Formula:</b> (${price} × ${percent}) ÷ 100 = ${percentAmount.toFixed(2)}<br>
+<hr>
+<b>Total Price:</b> ${price} + ${percentAmount.toFixed(2)} = <b>${total.toFixed(2)}</b>
+`;
+
+}
+
+</script>
+
+</body>
+</html>
