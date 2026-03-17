@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
+<!-- Mobile Responsive Fix -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>Smart Price Calculator</title>
 
 <style>
@@ -13,66 +17,65 @@ font-family: 'Segoe UI', sans-serif;
 
 body{
 margin:0;
-height:100vh;
+min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
 background: linear-gradient(135deg,#667eea,#764ba2);
+padding:10px;
 }
 
 /* Card */
 .container{
-width:360px;
-padding:25px;
-border-radius:20px;
+width:100%;
+max-width:380px;
+padding:20px;
+border-radius:18px;
 background: rgba(255,255,255,0.15);
 backdrop-filter: blur(12px);
-box-shadow:0 8px 30px rgba(0,0,0,0.3);
+box-shadow:0 8px 25px rgba(0,0,0,0.3);
 color:white;
 text-align:center;
 }
 
 /* Title */
 h2{
-margin-bottom:20px;
+margin-bottom:15px;
+font-size:22px;
 }
 
 /* Input */
 input{
 width:100%;
 padding:14px;
-font-size:18px;
+font-size:16px;
 border-radius:12px;
 border:none;
 outline:none;
-margin-bottom:20px;
-}
-
-/* Buttons Grid */
-.buttons{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-margin-bottom:20px;
+margin-bottom:15px;
 }
 
 /* Buttons */
+.buttons{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin-bottom:15px;
+}
+
 button{
 padding:12px;
 border:none;
-border-radius:12px;
-font-size:16px;
+border-radius:10px;
+font-size:15px;
 cursor:pointer;
 background: rgba(255,255,255,0.2);
 color:white;
-transition:0.3s;
+transition:0.2s;
 }
 
-/* Hover + Active */
-button:hover{
-background:white;
-color:#333;
-transform:scale(1.05);
+button:active{
+transform:scale(0.95);
 }
 
 button.active{
@@ -81,30 +84,27 @@ color:#000;
 font-weight:bold;
 }
 
-/* Result Box */
+/* Result */
 .result{
 background: rgba(255,255,255,0.2);
-padding:15px;
-border-radius:12px;
+padding:12px;
+border-radius:10px;
 text-align:left;
-font-size:15px;
-line-height:1.7;
+font-size:14px;
+line-height:1.6;
+word-wrap:break-word;
 }
 
 /* Footer */
 .footer{
-margin-top:20px;
-font-size:13px;
+margin-top:15px;
+font-size:12px;
 }
 
 .footer a{
 color:#00ffcc;
 text-decoration:none;
 font-weight:bold;
-}
-
-.footer a:hover{
-text-decoration:underline;
 }
 
 </style>
@@ -114,25 +114,25 @@ text-decoration:underline;
 
 <div class="container">
 
-<h2>Smart Calculator</h2>
+<h2>Price Calculator</h2>
 
 <input type="number" id="price" placeholder="Enter Price">
 
 <div class="buttons">
-
 <button onclick="calculate(this,1)">1%</button>
 <button onclick="calculate(this,2)">2%</button>
 <button onclick="calculate(this,3)">3%</button>
 <button onclick="calculate(this,5)">5%</button>
 <button onclick="calculate(this,10)">10%</button>
-
 </div>
 
-<div class="result" id="result">Enter price and select percentage</div>
+<div class="result" id="result">
+Enter price and select percentage
+</div>
 
 <div class="footer">
 Created by 
-<a href="https://wa.me/923041756083" target="_blank">M Farooq</a>
+<a href="https://wa.me/923XXXXXXXXX" target="_blank">M Farooq</a>
 </div>
 
 </div>
@@ -144,11 +144,11 @@ function calculate(btn, percent){
 let price = parseFloat(document.getElementById("price").value);
 
 if(!price){
-document.getElementById("result").innerHTML="⚠️ Please enter price first";
+document.getElementById("result").innerHTML="Please enter price first";
 return;
 }
 
-/* Active Button Highlight */
+/* Active Button */
 document.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
 btn.classList.add("active");
 
@@ -158,12 +158,12 @@ let total = price + percentAmount;
 
 /* Output */
 document.getElementById("result").innerHTML = `
-<b>💰 Original Price:</b> ${price}<br>
-<b>📊 Percentage:</b> ${percent}%<br>
-<b>➕ Added Amount:</b> ${percentAmount.toFixed(2)}<br>
-<b>🧮 Formula:</b> (${price} × ${percent}) ÷ 100<br>
+Original Price: ${price}<br>
+Selected Percentage: ${percent}%<br>
+Added Amount: ${percentAmount.toFixed(2)}<br>
+Formula: (${price} × ${percent}) ÷ 100<br>
 <hr>
-<b>✅ Final Price:</b> ${total.toFixed(2)}
+Final Price: ${total.toFixed(2)}
 `;
 
 }
