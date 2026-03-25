@@ -60,10 +60,11 @@ button:active{transform:scale(0.96);}
 .result{
 margin-top:10px;
 background:#ffffff20;
-padding:10px;
+padding:12px;
 border-radius:10px;
 font-size:14px;
 text-align:left;
+line-height:1.6;
 }
 
 .hidden{display:none;}
@@ -93,11 +94,9 @@ text-decoration:none;
 <!-- HOME -->
 <div id="home">
 <h2>Select Option</h2>
-
 <button onclick="show('one')">1% Calculator</button>
 <button onclick="show('diff')">Price Difference %</button>
 <button onclick="show('profit')">Amount to %</button>
-
 </div>
 
 <!-- 1% -->
@@ -117,7 +116,7 @@ text-decoration:none;
 <button class="back" onclick="back()">Back</button>
 </div>
 
-<!-- Profit % -->
+<!-- Profit -->
 <div id="profit" class="hidden">
 <h2>Amount to %</h2>
 <input type="number" id="base" placeholder="Base Price">
@@ -145,13 +144,20 @@ document.querySelectorAll(".hidden").forEach(e=>e.style.display="none");
 document.getElementById("home").style.display="block";
 }
 
-/* 1% Auto */
+/* 1% Calculator */
 function calcOne(){
-let p = document.getElementById("price1").value;
+let p = parseFloat(document.getElementById("price1").value);
 if(!p) return;
+
 let one = p/100;
+let total = p + one;
+
 document.getElementById("res1").innerHTML =
-"1% = " + one.toFixed(2);
+"Original Price: " + p + "<br>" +
+"Percentage: 1%<br>" +
+"Percentage Amount: " + one.toFixed(2) + "<br>" +
+"Formula: (" + p + " ÷ 100)<br><hr>" +
+"Total Price: " + total.toFixed(2);
 }
 
 /* Difference % */
@@ -164,20 +170,28 @@ let diff = sell - cost;
 let percent = (diff / cost) * 100;
 
 document.getElementById("res2").innerHTML =
-"Difference: " + diff.toFixed(2) + "<br>" +
+"Cost Price: " + cost + "<br>" +
+"Selling Price: " + sell + "<br>" +
+"Difference Amount: " + diff.toFixed(2) + "<br>" +
+"Formula: (" + diff.toFixed(2) + " ÷ " + cost + ") × 100<br>" +
 "Percentage: " + percent.toFixed(2) + "%";
 }
 
-/* Profit to % */
+/* Profit % */
 function calcProfit(){
 let base = parseFloat(document.getElementById("base").value);
 let profit = parseFloat(document.getElementById("profitVal").value);
 if(!base || !profit) return;
 
 let percent = (profit / base) * 100;
+let total = base + profit;
 
 document.getElementById("res3").innerHTML =
-"Percentage: " + percent.toFixed(2) + "%";
+"Base Price: " + base + "<br>" +
+"Profit Amount: " + profit + "<br>" +
+"Formula: (" + profit + " ÷ " + base + ") × 100<br>" +
+"Percentage: " + percent.toFixed(2) + "%<br><hr>" +
+"Total Price: " + total.toFixed(2);
 }
 
 </script>
