@@ -96,7 +96,6 @@ text-decoration:none;
 <h2>Select Option</h2>
 <button onclick="show('one')">1% Calculator</button>
 <button onclick="show('diff')">Price Difference %</button>
-<button onclick="show('profit')">Amount to %</button>
 </div>
 
 <!-- 1% -->
@@ -113,15 +112,6 @@ text-decoration:none;
 <input type="number" id="cost" placeholder="Cost Price">
 <input type="number" id="sell" placeholder="Selling Price" oninput="calcDiff()">
 <div class="result" id="res2"></div>
-<button class="back" onclick="back()">Back</button>
-</div>
-
-<!-- Profit -->
-<div id="profit" class="hidden">
-<h2>Amount to %</h2>
-<input type="number" id="base" placeholder="Base Price">
-<input type="number" id="profitVal" placeholder="Profit Amount" oninput="calcProfit()">
-<div class="result" id="res3"></div>
 <button class="back" onclick="back()">Back</button>
 </div>
 
@@ -175,23 +165,6 @@ document.getElementById("res2").innerHTML =
 "Difference Amount: " + diff.toFixed(2) + "<br>" +
 "Formula: (" + diff.toFixed(2) + " ÷ " + cost + ") × 100<br>" +
 "Percentage: " + percent.toFixed(2) + "%";
-}
-
-/* Profit % */
-function calcProfit(){
-let base = parseFloat(document.getElementById("base").value);
-let profit = parseFloat(document.getElementById("profitVal").value);
-if(!base || !profit) return;
-
-let percent = (profit / base) * 100;
-let total = base + profit;
-
-document.getElementById("res3").innerHTML =
-"Base Price: " + base + "<br>" +
-"Profit Amount: " + profit + "<br>" +
-"Formula: (" + profit + " ÷ " + base + ") × 100<br>" +
-"Percentage: " + percent.toFixed(2) + "%<br><hr>" +
-"Total Price: " + total.toFixed(2);
 }
 
 </script>
