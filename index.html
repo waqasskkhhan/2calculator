@@ -1,111 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="manifest" href="manifest.json">
 <meta charset="UTF-8">
-
-<!-- Mobile Responsive Fix -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>Smart Price Calculator</title>
+<title>Smart Calculator</title>
 
 <style>
 
-*{
-box-sizing:border-box;
-font-family: 'Segoe UI', sans-serif;
-}
+*{box-sizing:border-box;font-family:Segoe UI;}
 
 body{
 margin:0;
-min-height:100vh;
+background: linear-gradient(135deg,#667eea,#764ba2);
 display:flex;
 justify-content:center;
 align-items:center;
-background: linear-gradient(135deg,#667eea,#764ba2);
+min-height:100vh;
 padding:10px;
+color:white;
 }
 
-/* Card */
 .container{
 width:100%;
 max-width:380px;
+background: rgba(255,255,255,0.15);
 padding:20px;
 border-radius:18px;
-background: rgba(255,255,255,0.15);
 backdrop-filter: blur(12px);
 box-shadow:0 8px 25px rgba(0,0,0,0.3);
-color:white;
 text-align:center;
 }
 
-/* Title */
-h2{
-margin-bottom:15px;
-font-size:22px;
-}
+h2{margin-bottom:15px;font-size:20px;}
 
-/* Input */
 input{
 width:100%;
-padding:14px;
-font-size:16px;
-border-radius:12px;
-border:none;
-outline:none;
-margin-bottom:15px;
-}
-
-/* Buttons */
-.buttons{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:8px;
-margin-bottom:15px;
-}
-
-button{
 padding:12px;
+margin:8px 0;
 border:none;
 border-radius:10px;
 font-size:15px;
-cursor:pointer;
-background: rgba(255,255,255,0.2);
-color:white;
-transition:0.2s;
 }
 
-button:active{
-transform:scale(0.95);
-}
-
-button.active{
-background:#00ffcc;
-color:#000;
-font-weight:bold;
-}
-
-/* Result */
-.result{
-background: rgba(255,255,255,0.2);
+button{
+width:100%;
 padding:12px;
+margin:6px 0;
+border:none;
 border-radius:10px;
-text-align:left;
-font-size:14px;
-line-height:1.6;
-word-wrap:break-word;
+background:#ffffff30;
+color:white;
+font-size:15px;
+cursor:pointer;
 }
 
-/* Footer */
+button:active{transform:scale(0.96);}
+
+.result{
+margin-top:10px;
+background:#ffffff20;
+padding:10px;
+border-radius:10px;
+font-size:14px;
+text-align:left;
+}
+
+.hidden{display:none;}
+
+.back{
+margin-top:10px;
+background:#00000040;
+}
+
 .footer{
-margin-top:15px;
+margin-top:12px;
 font-size:12px;
 }
 
 .footer a{
 color:#00ffcc;
 text-decoration:none;
-font-weight:bold;
 }
 
 </style>
@@ -115,20 +89,40 @@ font-weight:bold;
 
 <div class="container">
 
-<h2>Price Calculator</h2>
+<!-- HOME -->
+<div id="home">
+<h2>Select Option</h2>
 
-<input type="number" id="price" placeholder="Enter Price">
+<button onclick="show('one')">1% Calculator</button>
+<button onclick="show('diff')">Price Difference %</button>
+<button onclick="show('profit')">Amount to %</button>
 
-<div class="buttons">
-<button onclick="calculate(this,1)">1%</button>
-<button onclick="calculate(this,2)">2%</button>
-<button onclick="calculate(this,3)">3%</button>
-<button onclick="calculate(this,5)">5%</button>
-<button onclick="calculate(this,10)">10%</button>
 </div>
 
-<div class="result" id="result">
-Enter price and select percentage
+<!-- 1% -->
+<div id="one" class="hidden">
+<h2>1% Calculator</h2>
+<input type="number" id="price1" placeholder="Enter Price" oninput="calcOne()">
+<div class="result" id="res1"></div>
+<button class="back" onclick="back()">Back</button>
+</div>
+
+<!-- Difference -->
+<div id="diff" class="hidden">
+<h2>Price Difference %</h2>
+<input type="number" id="cost" placeholder="Cost Price">
+<input type="number" id="sell" placeholder="Selling Price" oninput="calcDiff()">
+<div class="result" id="res2"></div>
+<button class="back" onclick="back()">Back</button>
+</div>
+
+<!-- Profit % -->
+<div id="profit" class="hidden">
+<h2>Amount to %</h2>
+<input type="number" id="base" placeholder="Base Price">
+<input type="number" id="profitVal" placeholder="Profit Amount" oninput="calcProfit()">
+<div class="result" id="res3"></div>
+<button class="back" onclick="back()">Back</button>
 </div>
 
 <div class="footer">
@@ -140,33 +134,49 @@ Created by
 
 <script>
 
-function calculate(btn, percent){
-
-let price = parseFloat(document.getElementById("price").value);
-
-if(!price){
-document.getElementById("result").innerHTML="Please enter price first";
-return;
+function show(id){
+document.getElementById("home").style.display="none";
+document.getElementById(id).style.display="block";
 }
 
-/* Active Button */
-document.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
+function back(){
+document.querySelectorAll(".hidden").forEach(e=>e.style.display="none");
+document.getElementById("home").style.display="block";
+}
 
-/* Calculation */
-let percentAmount = (price * percent) / 100;
-let total = price + percentAmount;
+/* 1% Auto */
+function calcOne(){
+let p = document.getElementById("price1").value;
+if(!p) return;
+let one = p/100;
+document.getElementById("res1").innerHTML =
+"1% = " + one.toFixed(2);
+}
 
-/* Output */
-document.getElementById("result").innerHTML = `
-Original Price: ${price}<br>
-Selected Percentage: ${percent}%<br>
-Added Amount: ${percentAmount.toFixed(2)}<br>
-Formula: (${price} × ${percent}) ÷ 100<br>
-<hr>
-Final Price: ${total.toFixed(2)}
-`;
+/* Difference % */
+function calcDiff(){
+let cost = parseFloat(document.getElementById("cost").value);
+let sell = parseFloat(document.getElementById("sell").value);
+if(!cost || !sell) return;
 
+let diff = sell - cost;
+let percent = (diff / cost) * 100;
+
+document.getElementById("res2").innerHTML =
+"Difference: " + diff.toFixed(2) + "<br>" +
+"Percentage: " + percent.toFixed(2) + "%";
+}
+
+/* Profit to % */
+function calcProfit(){
+let base = parseFloat(document.getElementById("base").value);
+let profit = parseFloat(document.getElementById("profitVal").value);
+if(!base || !profit) return;
+
+let percent = (profit / base) * 100;
+
+document.getElementById("res3").innerHTML =
+"Percentage: " + percent.toFixed(2) + "%";
 }
 
 </script>
